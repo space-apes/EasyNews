@@ -21,9 +21,7 @@ from .models import Agent, Customer, Delivery
 #:set	return render(request, 'agentportal/index.html', {'nameAddressList':nameAddressList})
 
 def index(request):
-	#agentName= request.POST['agentName']
-
-	agentName="Agent2"	
+	agentName= "Agent1"
 	selectedAgent=Agent.objects.get(name=agentName)
 	nameAddressList=[]
 	

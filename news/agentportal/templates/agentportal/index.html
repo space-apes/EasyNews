@@ -1,0 +1,67 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">
+
+
+
+<h1 id="welcomeH1">
+	welcome ###insertAgentNameHer?????????e###  (Shin wz here^^)
+</h1>
+
+</h1>
+<div id="outer">
+	<div id="left">
+		<div id="leftTop">
+			<!-- can insert logic to swap between static and generated image based off whether some
+			context values are passed in or not
+			-->
+
+			<img id="mapImage" src="https://images.idgesg.net/images/article/2018/09/google_map_w_markers-100770972-large.jpg">
+		</div>
+		
+		
+		<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
+		-->
+		<div id="leftBottom">
+			<ul>
+
+			{% for nameAddress in nameAddressList %}
+			<li>
+				{{nameAddress.name}}: {{nameAddress.address}}
+			</li>
+			{% endfor %} 
+			</ul>
+		</div>
+	
+		
+		
+	</div>
+	
+	
+	<div id="right">
+		<h1> choose delivery dates to display</h1>
+		<form action="{% url 'agentportal:index' %}" method="post">
+		
+		{% csrf_token %}
+		<label> agent name: 
+		<input type="text" name="agentName">
+		</input>
+		<br>
+		
+		<input type="submit" value="submit">
+		</form>
+		<br>
+
+
+		<!-- to be integrated into form
+		-->
+		<label>from:
+		<input type="date" name="startDate">
+		</label>
+		<label> to: 
+		<input type="date" name="endDate">
+		</label>
+	</div>
+
+</div
+
+
