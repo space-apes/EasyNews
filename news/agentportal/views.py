@@ -32,4 +32,3 @@ def index(request):
 	
 	return render(request, 'agentportal/index.html', {'nameAddressList':nameAddressList})
 
-ANDREW LOL
