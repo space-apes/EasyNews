@@ -4,15 +4,7 @@
 
 
 <h1 id="welcomeH1">
-	
-	<h1> BRIAN ALSO </h1>
-
-	welcome ###insertAgentNameHer?????????e###  (Shin wz here^^) 
-	<h1>ANDREW</h1>
-
-	welcome ###insertAgentNameHer?????????e###  (Shin from shin_agb and nw_br branch wz here^^)
-
-	welcome ###insertAgentNameHer???????? BRIAN BRANCH MERGE TEST
+	{{agentName}}
 </h1>
 
 </h1>
@@ -30,14 +22,15 @@
 		<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
 		-->
 		<div id="leftBottom">
-			<ul>
+			<h3>
+			check upon successful delivery
+			</h3>
 
-			{% for nameAddress in nameAddressList %}
-			<li>
-				{{nameAddress.name}}: {{nameAddress.address}}
-			</li>
+			{% for dateNameAddress in dateNameAddressList %}
+				<input type="checkbox">
+				{{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}}
+				<br>
 			{% endfor %} 
-			</ul>
 		</div>
 	
 		
@@ -47,7 +40,7 @@
 	
 	<div id="right">
 		<h1> choose delivery dates to display</h1>
-		<form action="{% url 'agentportal:index' %}" method="post">
+		<form action="{% url 'agentportal:showDeliveries' %}" method="post">
 		
 		{% csrf_token %}
 		<label> agent name: 
@@ -70,6 +63,6 @@
 		</label>
 	</div>
 
-</div
+</div>
 
 

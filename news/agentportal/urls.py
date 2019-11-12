@@ -5,5 +5,6 @@ app_name = 'agentportal'
 
 urlpatterns = [
         path('', views.index, name='index'),
+	path('showDeliveries', views.showDeliveries, name='showDeliveries'),
 ]
 
