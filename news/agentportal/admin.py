@@ -9,5 +9,5 @@ class CustomerAdmin(admin.ModelAdmin):
   ordering = ['name']
   actions=[set_agent1]
   
- admin.site.register(Customer, CustomerAdmin)
+admin.site.register(Customer, CustomerAdmin)
 # Register your models here.
