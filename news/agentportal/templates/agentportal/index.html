@@ -1,14 +1,14 @@
-i am different!
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">
 
 
-
+<a id="logoutLink" href="logout">
+	logout
+</a>
 <h1 id="welcomeH1">
-	{{agentName}}
+	{{userName}}
 </h1>
 
-</h1>
 <div id="outer">
 	<div id="left">
 		<div id="leftTop">
@@ -41,19 +41,10 @@ i am different!
 	
 	<div id="right">
 		<h1> choose delivery dates to display</h1>
-		<form action="{% url 'agentportal:showDeliveries' %}" method="post">
+		<form action="{% url 'agentportal:agentportal-showDeliveries' %}" method="post">
 		
 		{% csrf_token %}
-		<label> agent name: 
-		<input type="text" name="agentName">
-		</input>
-		<br>
 		
-		<input type="submit" value="submit">
-		</form>
-		<br>
-
-
 		<!-- to be integrated into form
 		-->
 		<label>from:
@@ -62,6 +53,10 @@ i am different!
 		<label> to: 
 		<input type="date" name="endDate">
 		</label>
+		<br>
+		<input type="submit" value="submit">
+		</form>
+		<br>
 	</div>
 
 </div>

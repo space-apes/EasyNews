@@ -1,36 +1,65 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Agent, Customer, Delivery
+from .models import Customer, Delivery
+from django.contrib.auth.models import User
+from datetime import date
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-#basic version
-#def index(request):
-#    return render(request, 'agentportal/index.html')
+
+#helper function to populate list of deliveries for today
+#
+#if the list of deliveries for today is empty
+#	for all customers
+#		if the current day does not fall within vacation dates for that customer
+#			create a new delivery with current date, that customer, and set it to not-delivered
+
+def populateDeliveries():
+	todayDay = date.today().day
+	if len(Delivery.objects.filter(date=date.today())) == 0:
+		for curCustomer in Customer.objects.all():
+			if not (todayDay >= curCustomer.vacationMonthDayBegin and todayDay <= curCustomer.vacationMonthDayEnd):
+				td = Delivery(customer=curCustomer, user=curCustomer.user, date=date.today(), deliveredSuccessfully=False)
+				td.save()
+
+			
+def loginLanding(request):
+	return render(request, 'agentportal/login.html')
 
 
+def loginRedirect(request):
+	username = request.POST['uName']
+	password = request.POST['pWord']
+	user = authenticate(request, username=username, password=password)
+	if user is not None:
+		login(request, user)
+		return redirect('/agentportal/showDeliveries')
+	else:
+	 	return redirect('/agentportal/')
+
+def logoutPage(request):
+	logout(request)
+	return redirect('/agentportal/')
 
 
-#initial loadup of agentportal will just pull up template with no
-#dynamic content
-#submission of form will pull uptemplate again using POST data
-#to do db query to generate dynamic content.
-def index(request):
-	return render(request, 'agentportal/index.html')
-
+#check if authenticated
+#	if not, send to logout view
+#
+#
+#
 def showDeliveries(request): 
-	#get agentName from form
-	agentName= request.POST['agentName']
-	#if the form posted agent name is not in the list of names, just return a blank response
-	if agentName not in list(map(lambda x: x.name, Agent.objects.all())):
-		return render(request, 'agentportal/index.html', {'agentName':'No such agent. Please re-enter name.'})
-
+#	if not authenticated, return to login
+	if not request.user.is_authenticated:
+		return redirect('/agentportal/logout/')
+#	grab current user's username
+	print('request.user.username in showDeliveries in view %s' % request.user.username)
 	#pull Agent entry from list of agents with matching name from form post	
-	selectedAgent=Agent.objects.get(name=agentName)
 	dateNameAddressList=[]
 	#populate list nameAddressList with {date,name, address} dicts to fill the 	
-	for delivery in Delivery.objects.filter(agent=selectedAgent):
+	for delivery in Delivery.objects.filter(user=request.user):
 		dateNameAddressList.append({'date': delivery.date, 'name':delivery.customer.name, 'address':delivery.customer.address})
 	
-	return render(request, 'agentportal/index.html', {'agentName':agentName, 'dateNameAddressList':dateNameAddressList})
-
+#	return render(request, 'agentportal/index.html', {'agentName':agentName, 'dateNameAddressList':dateNameAddressList})
+	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList})

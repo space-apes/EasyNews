@@ -1,0 +1,15 @@
+
+<form method="post" action="{% url 'agentportal:agentportal-loginRedirect' %}">
+{% csrf_token %}
+	<label> login: 
+		<input type="text" name="uName">
+		
+	</label>
+	<br>
+	<label> password: 
+		<input type="text" name="pWord">
+	</label>
+	<br>
+ 
+	<input type="submit" name="submit">
+</form>
