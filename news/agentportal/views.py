@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from apis import maps
 # Create your views here.
 
 
@@ -63,3 +64,8 @@ def showDeliveries(request):
 	
 #	return render(request, 'agentportal/index.html', {'agentName':agentName, 'dateNameAddressList':dateNameAddressList})
 	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList})
+
+def generateMap(request):
+	listOfAddresses = []
+	for addresses in Delivery.objects.filter(user=request.user):
+		listOfAddresses.append({address: addresses.customer.address})
