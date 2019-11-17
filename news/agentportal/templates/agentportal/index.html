@@ -41,17 +41,17 @@
 	
 	<div id="right">
 		<h1> choose delivery dates to display</h1>
-		<form action="{% url 'agentportal:agentportal-showDeliveries' %}" method="post">
+		<form action="{% url 'agentportal:agentportal-showDeliveriesRange' %}" method="post">
 		
 		{% csrf_token %}
 		
 		<!-- to be integrated into form
 		-->
 		<label>from:
-		<input type="date" name="startDate">
+		<input type="date" name="startDateForm">
 		</label>
 		<label> to: 
-		<input type="date" name="endDate">
+		<input type="date" name="endDateForm">
 		</label>
 		<br>
 		<input type="submit" value="submit">
