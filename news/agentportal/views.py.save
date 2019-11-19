@@ -66,14 +66,11 @@ def showDeliveries(request):
 		dateNameAddressList.append({'date': delivery.date, 'name':delivery.customer.name, 'address':delivery.customer.address})
 	
 #	return render(request, 'agentportal/index.html', {'agentName':agentName, 'dateNameAddressList':dateNameAddressList})
-	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList, 'mapURL':generateMap(request)})
-def generateMap(request):
+	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList})
+@register.simple_tag
+def generateMap(map):
 	listOfAddresses = []
-	for delivery in Delivery.objects.filter(user=request.user):
-		listOfAddresses.append(delivery.customer.address)
-	print(listOfAddresses[0])
-	tailored_url = config.base_url+'center='+listOfAddresses[0]+'&size=320x320'+'&maptype=roadmap&markers=color:blue&key='+config.api_key
-	print(tailored_url)
-	return tailored_url
-	#return render(request, 'agentportal/index.html',{'userName':request.user.username,'dateNameAddressList':dateNameAddressList, 'mapURL':tailored_url})
-	#return render(request, 'agentportal/index.html', { 'mapURL':'https://maps.googleapis.com/maps/api/staticmap?center=1200hawthorne&size=320x320&maptype=roadmap&key=AlzaSyAV-QT97l2QyEfDCr3aaLUdtMbeQKDVW-8'})
+	for addresses in Delivery.objects.filter(user=request.user):
+		listOfAddresses.append({address: addresses.customer.address})
+	tailored_url = config.base_url+'center='+listOfAddresses[0]+'&size=180x180'+'&maptype=roadmap&markers=color:blue&key='+config.api_key
+	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':listOfAddresses, 'mapURL':'https://maps.googleapis.com/maps/api/staticmap?center=1200hawthorne&key=AlzaSyAV-QT97l2QyEfDCr3aaLUdtMbeQKDVW-8})
