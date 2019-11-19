@@ -39,7 +39,7 @@ def loginRedirect(request):
 	user = authenticate(request, username=username, password=password)
 	if user is not None:
 		login(request, user)
-		return redirect('/agentportal/showDeliveries')
+		return redirect('agentportal:agentportal-showDeliveriesDay')
 	else:
 	 	return redirect('/agentportal/')
 
@@ -53,16 +53,26 @@ def logoutPage(request):
 #
 #
 #
-def showDeliveries(request): 
+def showDeliveries(request, mode): 
 #	if not authenticated, return to login
 	if not request.user.is_authenticated:
 		return redirect('/agentportal/logout/')
-#	grab current user's username
-	print('request.user.username in showDeliveries in view %s' % request.user.username)
-	#pull Agent entry from list of agents with matching name from form post	
+		
+#	list of delivery info that will be passed to template to display deliveries
 	dateNameAddressList=[]
-	#populate list nameAddressList with {date,name, address} dicts to fill the 	
-	for delivery in Delivery.objects.filter(user=request.user):
+
+#	set mode to either deliver just today's deliveries or between a range. 		
+	if mode=="day":
+		begDate = date.today()
+		endDate = date.today()
+	else:
+		begDate = request.POST['startDateForm']
+		endDate = request.POST['endDateForm']
+		print("you chose to see deliveries in range mode! post date for begDate is %s and endDate is %s" % (begDate, endDate))
+		print("whereas the format for date.today is %s" % (date.today()))
+	
+#	populate list nameAddressList with {date,name, address} dicts to fill the 	
+	for delivery in Delivery.objects.filter(user=request.user).filter(date__gte=begDate).filter(date__lte=endDate):
 		dateNameAddressList.append({'date': delivery.date, 'name':delivery.customer.name, 'address':delivery.customer.address})
 	
 #	return render(request, 'agentportal/index.html', {'agentName':agentName, 'dateNameAddressList':dateNameAddressList})
