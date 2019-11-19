@@ -75,5 +75,3 @@ def generateMap(request):
 	tailored_url = config.base_url+'center='+listOfAddresses[0]+'&size=320x320'+'&maptype=roadmap&markers=color:blue&key='+config.api_key
 	print(tailored_url)
 	return tailored_url
-	#return render(request, 'agentportal/index.html',{'userName':request.user.username,'dateNameAddressList':dateNameAddressList, 'mapURL':tailored_url})
-	#return render(request, 'agentportal/index.html', { 'mapURL':'https://maps.googleapis.com/maps/api/staticmap?center=1200hawthorne&size=320x320&maptype=roadmap&key=AlzaSyAV-QT97l2QyEfDCr3aaLUdtMbeQKDVW-8'})
