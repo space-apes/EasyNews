@@ -2,12 +2,18 @@
 <link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">
 
 
-<a id="logoutLink" href="logout">
-	logout
-</a>
-<h1 id="welcomeH1">
-	{{userName}}
-</h1>
+<div id="headerDiv">
+	<h1 id="welcomeH1">
+		{{userName}}
+	</h1>
+	<h1 id="todaysDateH1">
+		{{todaysDate}}
+	</h1>
+	
+	<a id="logoutLink" href="logout">
+		logout
+	</a>
+</div>
 
 <div id="outer">
 	<div id="left">

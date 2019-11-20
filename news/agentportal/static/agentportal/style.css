@@ -1,11 +1,21 @@
+#headerDiv
+{
+	display: flex;
+	justify-content: space-between;
+	height:9%;
+}
+
 #welcomeH1
 {
-	height:9%;
+	margin:0;
+}
+#todaysDateH1
+{
 	margin:0;
 }
 #outer
 {
-width: 100%;
+width: 99%;
 height:90%;
 position: absolute;
 }
