@@ -1,64 +1,73 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">
-
-
-<a id="logoutLink" href="logout">
-	logout
-</a>
-<h1 id="welcomeH1">
-	{{userName}}
-</h1>
-
-<div id="outer">
-	<div id="left">
-		<div id="leftTop">
-			<!-- can insert logic to swap between static and generated image based off whether some
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EASYNEWS - INDEX</title>
+<link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.--> 
+<script>var __adobewebfontsappname__="dreamweaver"</script> 
+<script src="http://use.edgefonts.net/source-sans-pro:n2:default.js" type="text/javascript"></script> 
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --> 
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// --> 
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<body>
+<div class="container">
+  <header><a href="">
+    <h4 class="logo">EASYNEWS</h4>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="home.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="login.html">LOGIN</a></li>
+      </ul>
+    </nav>
+  </header>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">
+  <a id="logoutLink" href="logout"> logout </a>
+  <h1 id="welcomeH1"> {{userName}} </h1>
+  <div id="outer">
+    <div id="left">
+      <div id="leftTop"> 
+        <!-- can insert logic to swap between static and generated image based off whether some
 			context values are passed in or not
-			-->
-
-			<img id="mapImage" src="https://images.idgesg.net/images/article/2018/09/google_map_w_markers-100770972-large.jpg">
-		</div>
-		
-		
-		<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
+			--> 
+        
+        <img id="mapImage" src="https://images.idgesg.net/images/article/2018/09/google_map_w_markers-100770972-large.jpg"> </div>
+      
+      <!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
 		-->
-		<div id="leftBottom">
-			<h3>
-			check upon successful delivery
-			</h3>
-
-			{% for dateNameAddress in dateNameAddressList %}
-				<input type="checkbox">
-				{{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}}
-				<br>
-			{% endfor %} 
-		</div>
-	
-		
-		
-	</div>
-	
-	
-	<div id="right">
-		<h1> choose delivery dates to display</h1>
-		<form action="{% url 'agentportal:agentportal-showDeliveries' %}" method="post">
-		
-		{% csrf_token %}
-		
-		<!-- to be integrated into form
+      <div id="leftBottom">
+        <h3> check upon successful delivery </h3>
+        {% for dateNameAddress in dateNameAddressList %}
+        <input type="checkbox">
+        {{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}} <br>
+        {% endfor %} </div>
+    </div>
+    <div id="right">
+      <h1> choose delivery dates to display</h1>
+      <form action="{% url 'agentportal:agentportal-showDeliveries' %}" method="post">
+        {% csrf_token %} 
+        
+        <!-- to be integrated into form
 		-->
-		<label>from:
-		<input type="date" name="startDate">
-		</label>
-		<label> to: 
-		<input type="date" name="endDate">
-		</label>
-		<br>
-		<input type="submit" value="submit">
-		</form>
-		<br>
-	</div>
-
+        <label>from:
+          <input type="date" name="startDate">
+        </label>
+        <label> to:
+          <input type="date" name="endDate">
+        </label>
+        <br>
+        <input type="submit" value="submit">
+      </form>
+      <br>
+    </div>
+  </div>
 </div>
-
-
+</body>
