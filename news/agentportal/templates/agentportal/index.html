@@ -29,7 +29,7 @@
 		-->
 		<div id="leftBottom">
 			<h3>
-			check upon successful delivery
+				{{deliveryListMessage}}
 			</h3>
 
 			{% for dateNameAddress in dateNameAddressList %}
@@ -53,10 +53,10 @@
 		<!-- to be integrated into form
 		-->
 		<label>from:
-		<input type="date" name="startDateForm">
+		<input type="date" name="startDateForm" value="{{todaysDate}}">
 		</label>
 		<label> to: 
-		<input type="date" name="endDateForm">
+		<input type="date" name="endDateForm" value="{{todaysDate}}">
 		</label>
 		<br>
 		<input type="submit" value="submit">

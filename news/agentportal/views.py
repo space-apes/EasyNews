@@ -13,26 +13,15 @@ register = template.Library()
 # Create your views here.
 
 
-#helper function to populate list of deliveries for today
-#
-#if the list of deliveries for today is empty
-#	for all customers
-#		if the current day does not fall within vacation dates for that customer
-#			create a new delivery with current date, that customer, and set it to not-delivered
-
-def populateDeliveries():
-	todayDay = date.today().day
-	if len(Delivery.objects.filter(date=date.today())) == 0:
-		for curCustomer in Customer.objects.all():
-			if not (todayDay >= curCustomer.vacationMonthDayBegin and todayDay <= curCustomer.vacationMonthDayEnd):
-				td = Delivery(customer=curCustomer, user=curCustomer.user, date=date.today(), deliveredSuccessfully=False)
-				td.save()
-
-			
+#redirects to login page with no credentials	
 def loginLanding(request):
 	return render(request, 'agentportal/login.html')
 
-
+#takes user credentials from login form
+#if authenticated:
+#	send user to show deliveries page with default settings
+#else
+#	send them back to login screen
 def loginRedirect(request):
 	username = request.POST['uName']
 	password = request.POST['pWord']
@@ -42,6 +31,8 @@ def loginRedirect(request):
 		return redirect('agentportal:agentportal-showDeliveriesDay')
 	else:
 	 	return redirect('/agentportal/')
+
+#use django api to log out individual and send them back to login screen
 
 def logoutPage(request):
 	logout(request)
@@ -66,27 +57,68 @@ def showDeliveries(request, mode):
 		begDate = todaysDate
 		endDate = todaysDate
 	else:
-		begDate = request.POST['startDateForm']
-		endDate = request.POST['endDateForm']
-#		if someone submits empty date, set date to current date
-		if not begDate:
-			begdate = todaysDate
-		if not endDate:
-			endDate = todaysDate
+		#if mode is not "day" it means we want deliveries from a range of dates. 
+		#take form date for the beginning and end date.
 
+		#first test whether form data was in valid yyyy-mm-dd format
+		try:
+			begDate = request.POST['startDateForm']
+		except Exception as e:
+			print("invalid start date submitted in form. setting to today's date.")
+			begDate = todaysDate
+		try:
+			endDate = request.POST['endDateForm']
+		except Exception as e:
+			print("invalid end date submitted in form. setting to today's date.")
+			endDate = todaysDate
+		
+	# if dates are out of order, swap them. 
+	if endDate < begDate:
+		tempDate = begDate
+		begDate = endDate
+		endDate = tempDate
+	
+	#for customer in Customer.objects.all():	
+	#	if begDate.day < 20 and endDate.day > 20:
+	#		dateNameAddressList.append({'date': date(todaysDate.year, todaysDate.month, 20), 'name': customer.name+"(BILL DUE FOR $)"+str(calcBillForMonth(customer, date.today(), 3.25))})
+	
 #	populate list nameAddressList with {date,name, address} dicts to fill the 	
 	for delivery in Delivery.objects.filter(user=request.user).filter(date__gte=begDate).filter(date__lte=endDate):
-		dateNameAddressList.append({'date': delivery.date, 'name':delivery.customer.name, 'address':delivery.customer.address})
+		custName = delivery.customer.name
+		dateNameAddressList.append({'date': delivery.date, 'name':custName, 'address':delivery.customer.address})
 	
-	tailored_url = config.base_url+'&size=320x320'+'&maptype=roadmap&markers=color:blue|'+"".join([dateNameAddress['address'] for dateNameAddress in dateNameAddressList])+'&key='+config.api_key
-	print('tailored_url is: %s' % tailored_url)
-	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList, 'mapURL':tailored_url, 'todaysDate': todaysDate})
+	
+#	generate custom image url to generate google static map using address list	
+	tailored_url = generateMapUrl([item['address'] for item in dateNameAddressList])
+	
+#	generate delivery message to show above list of deliveries. if there are more than 15 deliveries, 
+#	append message explaining why markers do not show up on google maps image. 
+	deliveryListMessage = ""
+	if len(dateNameAddressList) >= 15:
+		deliveryListMessage = "(google maps cannot display that many deliveries. limit to 15 or less) "
+	deliveryListMessage +="from %s to %s" % (begDate, endDate)
+	
+	
+	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList, 'mapURL':tailored_url, 'todaysDate': str(todaysDate), 'deliveryListMessage': deliveryListMessage })
 
-def generateMap(request):
-	listOfAddresses = []
-	for delivery in Delivery.objects.filter(user=request.user):
-		listOfAddresses.append(delivery.customer.address)
-	print(listOfAddresses[0])
-	tailored_url = config.base_url+'center='+listOfAddresses[0]+'&size=320x320'+'&maptype=roadmap&markers=color:blue&key='+config.api_key
+#***DESCRIPTION***
+#calculates total cost for all newspaper deliveries for a particular user in a particular month/year. 
+#
+#***SIGNATURE***
+#(customer customerObject, dateInMonth string, singlePaperPrice float) -> float
+#
+#***PSEUDOCODE***
+#calcBillForThisMonth(user, singlePaperPrice)
+	#get the list of deliveries for this customer from the 1st to the 20th of the given date's month and year
+	#get length of the list
+	#return length * singlepaperPrice rounded to 2 decimal places
+	
+def calcBillForMonth(customer, dateInMonth, singlePaperPrice):
+	deliveryList = Delivery.objects.filter(customer=customer).filter(date__gte=date(dateInMonth.year, dateInMonth.day, 1)).filter(date__lte=date(dateInMonth.year, dateInMonth.month, 20))
+	return round(len(deliveryList)*singlePaperPrice, 2)
+	
+
+def generateMapUrl(addressList):		
+	tailored_url = config.base_url+"&size=320x320&maptype=roadmap&markers=color:blue|"+"".join([address+"|" for address in addressList])+'&key='+config.api_key
 	print(tailored_url)
 	return tailored_url

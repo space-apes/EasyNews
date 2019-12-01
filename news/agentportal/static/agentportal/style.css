@@ -49,6 +49,7 @@ display: inline-block;
 	border: pink solid 2px;
 	height: 49%;
 	width:100%;
+	overflow: scroll;
 }
 #mapImage
 {
