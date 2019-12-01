@@ -29,39 +29,6 @@
       </ul>
     </nav>
   </header>
-  <div>
-    <form method="post" action="{% url 'agentportal:agentportal-loginRedirect' %}" id="form1">
-      
-      <!--<form method="post" action="{% url 'agentportal:agentportal-loginRedirect' %}">--> 
-      {% csrf_token %}
-      <label> LOGIN:
-        <input type="text" name="uName">
-      </label>
-      <br>
-      <label> PASSWORD:
-        <input type="password" name="pWord">
-      </label>
-      <br>
-      <button type="submit" form="form1" value="submit">SUBMIT</button>
-      <!--<input type="submit" name="submit">-->
-    </form>
-  </div>
 </div>
 </body>
 </html>
-
-<!--
-<form method="post" action="{% url 'agentportal:agentportal-loginRedirect' %}">
-{% csrf_token %}
-	<label> login: 
-		<input type="text" name="uName">
-		
-	</label>
-	<br>
-	<label> password: 
-		<input type="text" name="pWord">
-	</label>
-	<br>
- 
-	<input type="submit" name="submit">
-</form>-->
