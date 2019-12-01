@@ -1,0 +1,69 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">
+
+
+<div id="headerDiv">
+	<h1 id="welcomeH1">
+		{{userName}}
+	</h1>
+	<h1 id="todaysDateH1">
+		{{todaysDate}}
+	</h1>
+	
+	<a id="logoutLink" href="logout">
+		logout
+	</a>
+</div>
+
+<div id="outer">
+	<div id="left">
+		<div id="leftTop">
+			<!-- can insert logic to swap between static and generated image based off whether some
+			context values are passed in or not
+			-->
+			<img id="mapImage" src="{{ mapURL }}">
+		</div>
+		
+		
+		<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
+		-->
+		<div id="leftBottom">
+			<h3>
+			check upon successful delivery
+			</h3>
+
+			{% for dateNameAddress in dateNameAddressList %}
+				<input type="checkbox">
+				{{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}}
+				<br>
+			{% endfor %} 
+		</div>
+	
+		
+		
+	</div>
+	
+	
+	<div id="right">
+		<h1> choose delivery dates to display</h1>
+		<form action="{% url 'agentportal:agentportal-showDeliveriesRange' %}" method="post">
+		
+		{% csrf_token %}
+		
+		<!-- to be integrated into form
+		-->
+		<label>from:
+		<input type="date" name="startDateForm">
+		</label>
+		<label> to: 
+		<input type="date" name="endDateForm">
+		</label>
+		<br>
+		<input type="submit" value="submit">
+		</form>
+		<br>
+	</div>
+
+</div>
+
+
