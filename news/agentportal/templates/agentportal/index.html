@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--<title>EASYNEWS</title>-->
-<link href="css/singlePageTemplate.css" rel="stylesheet" type="text/css">
+<link href="{% static 'agentportal/singlePageTemplate.css' %}" rel="stylesheet" type="text/css">
 <!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.--> 
 <script>var __adobewebfontsappname__="dreamweaver"</script> 
 <script src="http://use.edgefonts.net/source-sans-pro:n2:default.js" type="text/javascript"></script> 
@@ -25,7 +25,7 @@
       <ul>
         <li><a href="home.html">HOME</a></li>
         <li><a href="about.html">ABOUT</a></li>
-        <li><a href="login.html">LOGIN</a></li>
+        <li><a id="logoutLink" href="logout"> LOGOUT </a></li>
       </ul>
     </nav>
   </header>
@@ -35,18 +35,16 @@
   </section>
   <!--<link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">--> 
   <!--<div id="headerDiv">-->
-  <section class = "about" id = "about">
-	  <h2 class = "hidden" ></h2>
-    <p class="text_column">
-		{{userName}}
-    <!--<h1 id="welcomeH1">Hello {{userName}} </h1>-->
-    </p>
-    <p class="text_column">
-    {{todaysDate}}
-	  <!--<h1 id="todaysDateH1">Today is {{todaysDate}} </h1>-->
-    </p>
-    <p class="text_column"><a id="logoutLink" href="logout"> LOGOUT </a>
-	  </p>
+  <section class="about" id="about"> 
+    <!--<h2 class="hidden">About</h2>-->
+    <div>
+      <h3>{{userName}}</h3>
+      <p class="text_column">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+    </div>
+    <div>
+      <h3>{{todaysDate}}</h3>
+      <p class="text_column">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+    </div>
   </section>
   <!--</div>-->
   <div id="outer">
