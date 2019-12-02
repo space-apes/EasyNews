@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--<title>EASYNEWS</title>-->
+{% load static %}
 <link href="{% static 'agentportal/singlePageTemplate.css' %}" rel="stylesheet" type="text/css">
 <!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.--> 
 <script>var __adobewebfontsappname__="dreamweaver"</script> 
@@ -33,6 +34,7 @@
   <section class="hero" id = "hero">
     <h2 class = "hero_header">{% load static %} </h2>
   </section>
+{% load static %}
   <!--<link rel="stylesheet" type="text/css" href="{% static 'agentportal/style.css' %}">--> 
   <!--<div id="headerDiv">-->
   <section class="about" id="about"> 
@@ -58,7 +60,7 @@
       <!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
 		-->
       <div id="leftBottom">
-        <h3> check upon successful delivery </h3>
+        <h3> {{deliveryListMessage}} </h3>
         {% for dateNameAddress in dateNameAddressList %}
         <input type="checkbox">
         {{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}} <br>
@@ -72,10 +74,10 @@
         <!-- to be integrated into form
 		-->
         <label>from:
-          <input type="date" name="startDateForm">
+          <input type="date" name="startDateForm" value="{{todaysDate}}">
         </label>
         <label> to:
-          <input type="date" name="endDateForm">
+          <input type="date" name="endDateForm" value="{{todaysDate}}">
         </label>
         <br>
         <input type="submit" value="submit">
@@ -142,10 +144,10 @@
 		<!-- to be integrated into form
 		
 		<label>from:
-		<input type="date" name="startDateForm" value="{{todaysDate}}">
+		<input type="date" name="startDateForm" value="{{begDate}}">
 		</label>
 		<label> to: 
-		<input type="date" name="endDateForm" value="{{todaysDate}}">
+		<input type="date" name="endDateForm" value="{{endDate}}">
 		</label>
 		<br>
 		<input type="submit" value="submit">
