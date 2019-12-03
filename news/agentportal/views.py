@@ -224,7 +224,7 @@ def showDeliveries(request, mode):
 			billDate = date(yearNum, monthNum, 20)	
 			if begDate <= billDate and endDate >= billDate:
 				for customer in Customer.objects.filter(user=request.user):
-					dateNameAddressList.append({'date': billDate, 'name': "(BILL DUE for "+str(calcBillForMonth(customer, billDate, .87))+"):"+customer.name, 'address':customer.address})	
+					dateNameAddressList.append({'date': str(date(yearNum,monthNum-1, 21))+" TO "+str(billDate), 'name': "(BILL DUE for "+str(calcBillForMonth(customer, billDate, .87))+"):"+customer.name, 'address':customer.address})	
 	
 
 #	generate delivery message to show above list of deliveries. if there are more than 15 deliveries, 
