@@ -237,5 +237,5 @@ def showDeliveries(request, mode):
 #	generate custom image url to generate google static map using address list	
 	tailored_url = generateMapUrl([item['address'] for item in dateNameAddressList])
 	
-	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList, 'mapURL':tailored_url, 'todaysDate': str(todaysDate), 'endDate': endDate, 'begDate': endDate, 'deliveryListMessage': deliveryListMessage })
+	return render(request, 'agentportal/index.html', {'userName':request.user.username, 'dateNameAddressList':dateNameAddressList, 'mapURL':tailored_url, 'todaysDate': str(todaysDate), 'endDate': str(endDate), 'begDate': str(begDate), 'deliveryListMessage': deliveryListMessage })
 
