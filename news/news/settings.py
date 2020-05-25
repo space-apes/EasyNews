@@ -25,7 +25,7 @@ SECRET_KEY = '#^+qqv%cbow4!he(+=3n!y%sc3$bqzigtn9gpx@83q3(l_lsz='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['csc581', '127.0.1.1', '157.245.177.191']
+ALLOWED_HOSTS = ['csc581', '127.0.1.1', '157.245.177.191', 'easynews.today']
 
 
 # Application definition
