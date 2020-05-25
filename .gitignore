@@ -1,4 +1,5 @@
 /news/agentportal/apis
+/news/agentportal/config.py
 *.pyc
 *.pyo
 
