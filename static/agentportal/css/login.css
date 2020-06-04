@@ -1,0 +1,30 @@
+*
+{
+	margin: 0;
+}
+#outer
+{
+	display: flex;
+	width:99%;
+	height: 100%;
+	position: absolute;
+}
+#left
+{
+	width: 80%;
+	background-size: cover;
+}
+#right
+{
+	width: 20%;
+	background-color: black;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+#formDiv
+{
+	margin: auto;
+}
