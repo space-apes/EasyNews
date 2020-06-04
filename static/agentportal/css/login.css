@@ -2,6 +2,10 @@
 {
 	margin: 0;
 }
+html
+{
+	font-size:100%;
+}
 #outer
 {
 	display: flex;
@@ -22,9 +26,26 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-family: 'PT Mono', monospace;
 	
 }
 #formDiv
 {
 	margin: auto;
+}
+
+#left h1
+{
+	margin: auto;
+	font-family: 'PT Sans Narrow', sans-serif;
+	font-size: 5vw;
+	color: #FFFFFF;
+}
+
+#formDiv button
+{
+	border: white 2px solid;
+	background-color: black;
+	color: white;
+	font-family: 'PT Mono', monospace;
 }

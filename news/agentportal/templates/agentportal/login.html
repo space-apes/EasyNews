@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-{% load static %}
-<link href="{% static 'agentportal/css/login.css' %}" rel="stylesheet" type="text/css">
-</head>
-<body>
-	<div id = "outer">
-		<div id="left" style="background-image: url({% static '/agentportal/img/newspaperGuy.jpg' %})">
-		<!--	<img src="{% static '/agentportal/img/newspaperGuy.jpg' %}"> -->
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1">
+		{% load static %}
+		<link href="{% static 'agentportal/css/login.css' %}" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+	        <link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet">	
+	</head>
+	<body>
+		<div id = "outer">
+			<div id="left" style="background-image: url({% static '/agentportal/img/newspaperCatMercury.jpg' %})">
+				<h1> EasyNews Agent Portal </h1>
+			</div>
+			<div id="right">
+			    <div id="formDiv">
+				    <form method="post" action="{% url 'agentportal:agentportal-loginRedirect' %}" id="form1">
+				      {% csrf_token %}
+				      <label> LOGIN:
+					<input type="text" name="uName">
+				      </label>
+				      <br>
+				      <label> PASSWORD:
+					<input type="password" name="pWord">
+				      </label>
+				      <br>
+				      <button type="submit" form="form1" value="submit">Submit</button>
+				    </form>
+			    </div>
+			</div>
 		</div>
-		<div id="right">
-		    <div id="formDiv">
-			    <form method="post" action="{% url 'agentportal:agentportal-loginRedirect' %}" id="form1">
-			      {% csrf_token %}
-			      <label> LOGIN:
-				<input type="text" name="uName">
-			      </label>
-			      <br>
-			      <label> PASSWORD:
-				<input type="password" name="pWord">
-			      </label>
-			      <br>
-			      <button type="submit" form="form1" value="submit">SUBMIT</button>
-			    </form>
-		    </div>
-		</div>
-	</div>
 	</body>
 </html>
