@@ -1,38 +1,18 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'agentportal/css/style.css' %}">
-
-
-<a id="logoutLink" href="logout">
-	logout
-</a>
-<h1 id="welcomeH1">
-	{{userName}} {{todaysDate}}
-</h1>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet"> 
 
 <div id="outer">
 	<div id="left">
-		<div id="leftTop">
 			<!-- can insert logic to swap between static and generated image based off whether some
 			context values are passed in or not
 			-->
-
-			<img id="mapImage" src="{{mapURL}}">
-		</div>
+		<img id="mapImage" src="{{mapURL}}">
 		
 		
 		<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
 		-->
-		<div id="leftBottom">
-			<h3>
-				{{deliveryListMessage}}
-			</h3>
-
-			{% for dateNameAddress in dateNameAddressList %}
-				<input type="checkbox">
-				{{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}}
-				<br>
-			{% endfor %} 
-		</div>
 	
 		
 		
@@ -40,23 +20,32 @@
 	
 	
 	<div id="right">
-		<h1> choose delivery dates to display</h1>
-		<form action="{% url 'agentportal:agentportal-showDeliveriesRange' %}" method="post">
-		
-		{% csrf_token %}
-		
-		<!-- to be integrated into form
-		-->
-		<label>from:
-		<input type="date" name="startDateForm" value="{{begDate}}">
-		</label>
-		<label> to: 
-		<input type="date" name="endDateForm" value="{{endDate}}">
-		</label>
-		<br>
-		<input type="submit" value="submit">
-		</form>
-		<br>
+			<h1> {{userName}}, choose delivery dates to display or <a href="logout">logout</a></h1>
+			<form action="{% url 'agentportal:agentportal-showDeliveriesRange' %}" method="post">
+			
+			{% csrf_token %}
+			
+			<!-- to be integrated into form
+			-->
+			<label>from:
+			<input type="date" name="startDateForm" value="{{begDate}}">
+			</label>
+			<label> to: 
+			<input type="date" name="endDateForm" value="{{endDate}}">
+			</label>
+			<input type="submit" value="submit">
+			</form>
+			<br>
+			<h3>
+				{{deliveryListMessage}}
+			</h3>
+
+			{% for dateNameAddress in dateNameAddressList %}
+				<p>
+				<input type="checkbox">
+				{{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}}
+				</p>
+			{% endfor %} 
 	</div>
 
 </div>

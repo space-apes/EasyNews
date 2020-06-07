@@ -75,7 +75,7 @@ def calcBillForMonth(customer, billDate, singlePaperPrice):
 #SIGNATURE
 #(stringList addressList)->string
 def generateMapUrl(addressList):		
-	tailored_url = config.base_url+"&size=320x320&maptype=roadmap&markers=color:blue|"+"".join([address+"|" for address in addressList])+'&key='+config.api_key
+	tailored_url = config.base_url+"&size=640x640&maptype=roadmap&markers=color:blue|"+"".join([address+"|" for address in addressList])+'&key='+config.api_key
 	print(tailored_url)
 	return tailored_url
 

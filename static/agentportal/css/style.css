@@ -1,48 +1,57 @@
-#welcomeH1
+*
 {
-	height:9%;
-	margin:0;
+	margin: 0;
+
 }
 #outer
 {
-width: 100%;
-height:90%;
-position: absolute;
+	width: 100%;
+	height:100%;
+	position: absolute;
+	display: flex;
 }
 #left
 {
-width: 50%;
-height: 100%;
-border: red solid 2px;
-display:inline-block;
-float: left;
+	width: 50%;
+	height: 100%;
+	display:inline-block;
+	float: left;
 }
 #right
 {
-width: 49%;
-height: 100%;
-border: green solid 2px;
-display: inline-block;
+	width: 50%;
+	height: 100%;
+	display: inline-block;
 }
 
-#leftTop
-{
-	display: block;
-	border: yellow solid 2px;
-	height: 50%;
-	width:100%;
-}
 
-#leftBottom
-{
-	display: block;
-	border: pink solid 2px;
-	height: 49%;
-	width:100%;
-	overflow:scroll;
-}
 #mapImage
 {
 	height:100%;
 	width:100%;
+}
+#right h1
+{
+	font-family: 'PT Sans Narrow', sans-serif;
+	color: #FFFFFF;   
+	font-size:2.5vw;
+}
+#right h3
+{
+	font-size: 1.8vw;
+}
+div, button, label, li
+{
+
+	background-color: black;
+	color: white;
+}
+label
+{
+
+	font-family: 'PT Mono', monospace;
+}
+p
+{
+	font-size: 1.3vw;
 }
