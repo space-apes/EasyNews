@@ -23,6 +23,7 @@ from django import template
 from django.http import HttpResponse
 from django.utils import timezone
 from datetime import date
+import json
 register = template.Library()
 
 #****************VIEWS**********************: 
@@ -43,13 +44,6 @@ register = template.Library()
 #1. helper functions
 #2. simple views (that mostly just redirect browser to load either a diff view function or to load a template html/css file)
 #3. showDeliveries: contains most of logic for agentportal
-
-
-
-
-
-
-
 
 
 
@@ -78,6 +72,27 @@ def generateMapUrl(addressList):
 	tailored_url = config.base_url+"&size=640x640&maptype=roadmap&markers=color:blue|"+"".join([address+"|" for address in addressList])+'&key='+config.api_key
 	print(tailored_url)
 	return tailored_url
+
+
+#***HELPERFUNCTION***: updateDeliveryStatus
+#DESCRIPTION
+#called during ajax post request to url /updateDeliveryStatus
+#to update db Delivery.deliveredSucessfully entry based on argument value
+def updateDeliveryStatus(request):
+	if (not request.user.is_authenticated) and request.method == "POST":
+		logoutPage(request)
+	else:
+		jData = json.loads(request.body.decode("utf-8"))	
+		deliveryID = jData['id']
+		if Delivery.objects.filter(id=deliveryID).count() > 0:
+			curDelivery = Delivery.objects.get(id=deliveryID)
+			curDelivery.deliveredSuccessfully = False if curDelivery.deliveredSuccessfully else True
+			curDelivery.save()
+			return HttpResponse("updated delivery")
+		else:
+			return HttpResponse("no such delivery")
+
+	
 
 #***VIEW FUNCTION***: loginLanding
 #DESCRIPTION
@@ -185,7 +200,6 @@ def showDeliveries(request, mode):
 	else:
 		#if mode is not "day" it means we want deliveries from a range of dates. 
 		#take form date for the beginning and end date.
-
 		#first test whether form data was in valid yyyy-mm-dd format
 		try:
 			begDate = request.POST['startDateForm']
@@ -213,10 +227,12 @@ def showDeliveries(request, mode):
 		begDate = endDate
 		endDate = tempDate	
 		
-#	populate list nameAddressList with {date,name, address} dicts to fill the view 	
-	for delivery in Delivery.objects.filter(user=request.user).filter(date__gte=begDate).filter(date__lte=endDate):
+#	populate list nameAddressList with {date,name, address, checked, checkedBinBool} dicts to fill the view 	
+	for delivery in Delivery.objects.filter(user=request.user).filter(date__gte=begDate).filter(date__lte=endDate).order_by('date'):
 		custName = delivery.customer.name
-		dateNameAddressList.append({'date': delivery.date, 'name':custName, 'address':delivery.customer.address})	
+		checkStatus = "checked" if delivery.deliveredSuccessfully else ""
+		checkStatusBinBool = 1 if delivery.deliveredSuccessfully else 0
+		dateNameAddressList.append({'date': delivery.date, 'name':custName, 'address':delivery.customer.address, 'checked': checkStatus, 'id': delivery.id, 'checkedBinBool': checkStatusBinBool})	
 		
 #	add a an entry for the bill if the 20th falls between begDate and endDate for all years and months that are spanned from begDate and endDate
 	for yearNum in range(begDate.year, endDate.year+1):

@@ -22,6 +22,7 @@
 	width: 50%;
 	height: 100%;
 	display: inline-block;
+	overflow: scroll;
 }
 
 
@@ -51,7 +52,12 @@ label
 
 	font-family: 'PT Mono', monospace;
 }
-p
+th, td
 {
-	font-size: 1.3vw;
+	border: white 2px solid;
+	font-size: 1.3vw; 
+}
+tr
+{
+width: 100%;
 }

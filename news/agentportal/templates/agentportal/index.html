@@ -1,53 +1,70 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'agentportal/css/style.css' %}">
-<link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet"> 
+<!DOCTYPE html>
+<html>
+	{% load static %}
+	<head>
 
-<div id="outer">
-	<div id="left">
-			<!-- can insert logic to swap between static and generated image based off whether some
-			context values are passed in or not
-			-->
-		<img id="mapImage" src="{{mapURL}}">
-		
-		
-		<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
-		-->
-	
-		
-		
-	</div>
-	
-	
-	<div id="right">
-			<h1> {{userName}}, choose delivery dates to display or <a href="logout">logout</a></h1>
-			<form action="{% url 'agentportal:agentportal-showDeliveriesRange' %}" method="post">
+		<link rel="stylesheet" type="text/css" href="{% static 'agentportal/css/style.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet"> 
+	</head>
+
+	<body>
+	<script src="{% static 'agentportal/js/clickyUtils.js' %}"></script>
+		<div id="outer">
+			<div id="left">
+					<!-- can insert logic to swap between static and generated image based off whether some
+					context values are passed in or not
+					-->
+				<img id="mapImage" src="{{mapURL}}">
+				
+				
+				<!--insert logic to cycle through deliveries or not, again based on whether context values are passed in or not
+				-->
 			
-			{% csrf_token %}
+				
+				
+			</div>
 			
-			<!-- to be integrated into form
-			-->
-			<label>from:
-			<input type="date" name="startDateForm" value="{{begDate}}">
-			</label>
-			<label> to: 
-			<input type="date" name="endDateForm" value="{{endDate}}">
-			</label>
-			<input type="submit" value="submit">
-			</form>
-			<br>
-			<h3>
-				{{deliveryListMessage}}
-			</h3>
+			
+			<div id="right">
+					<h1> {{userName}}, choose delivery dates to display or <a href="logout">logout</a></h1>
+					<form action="{% url 'agentportal:agentportal-showDeliveriesRange' %}" method="post">
+					
+					{% csrf_token %}
+					
+					<script>
+						var csrfToken = document.querySelector("input[name='csrfmiddlewaretoken']").value
+					</script> 
+					<!-- to be integrated into form
+					-->
+					<label>from:
+					<input type="date" name="startDateForm" value="{{begDate}}">
+					</label>
+					<label> to: 
+					<input type="date" name="endDateForm" value="{{endDate}}">
+					</label>
+					<input type="submit" value="submit">
+					</form>
+					<br>
+					<h3>
+						{{deliveryListMessage}}
+					</h3>
+					<table>
+					<tr>	<th>date</th> <th> name </th> <th> address </th> <th>delivered </th> </tr>
+					{% for dateNameAddress in dateNameAddressList %}
+						<tr>
+							<td>{{dateNameAddress.date}} </td>
+							<td>{{dateNameAddress.name}} </td>
+							<td>{{dateNameAddress.address}} </td>
+							<td>
+								<input type="checkbox" {{dateNameAddress.checked}} onchange="onDeliveryClick({{dateNameAddress.id}})"> 
+							</td>
+						</tr>
+					{% endfor %} 
+					</table>
+			</div>
 
-			{% for dateNameAddress in dateNameAddressList %}
-				<p>
-				<input type="checkbox">
-				{{dateNameAddress.date}}:{{dateNameAddress.name}}:{{dateNameAddress.address}}
-				</p>
-			{% endfor %} 
-	</div>
-
-</div>
-
+		</div>
+	</body>
+</html>
 
